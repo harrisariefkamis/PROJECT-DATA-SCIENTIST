@@ -1,7 +1,7 @@
 ## PROJECT-DATA-SCIENTIST
 Pengenalan Data Scientist dan Pemanfaatan di berbagai sektor industri-Fundamental Data Scientist-Python Nasional-Intermediate Data Scientist- Deep Learning dan LLM-Pemberdayaan training- Sertificate-Hackhaton
 
-#Apa itu Python? - Part 2
+# Apa itu Python? - Part 2
 Python adalah bahasa pemrograman yang ditujukan untuk general-purpose programming dan termasuk dalam kategori high-level programming language.
 
 Sebagai general-purpose programming language, Python digunakan untuk berbagai macam permasalahan seperti: pengembangan aplikasi web ataupun mobile, data science, dll.
