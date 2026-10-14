@@ -1,89 +1,98 @@
-#instal numpy python
-pip instal numpy 
-#pip instal numpy
-#import numpy as np
+"""Contoh dasar operasi array dengan NumPy."""
+
+# Instal dependensi dari terminal: python -m pip install numpy
 import numpy as np
-data1=np.array([1,2,3,4])
-data2=np.array([[1,2],[3,4]])
-print(data1)
-print(data2)
-#np.random
-random_array = np.random.rand(2, 3)  # Array 2x3 nilai acak
-print(random_array)
-range_array = np.arange(0, 10, 2)  # Nilai dari 0 hingga 8 dengan langkah 2
-print(range_array)  # Output: [0 2 4 6 8]
-linspace_array = np.linspace(0, 1, 5)  # 5 nilai dari 0 hingga 1
-print(linspace_array)  # Output: [0.   0.25 0.5  0.75 1.  ]
-#Math numpy
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-print(a + b)  # Output: [5 7 9]
-print(a * b)  # Output: [4 10 18]
-print(a - b)  # Output: [-3 -3 -3]
-print(a / b)  # Output: [0.25 0.4  0.5 ]
-#indeks numpy
-arr = np.array([10, 20, 30, 40, 50])
-print(arr[0])       # Output: 10
-print(arr[1:4])     # Output: [20 30 40]
-print(arr[-1])      # Output: 50 (elemen terakhir)
 
-#Ubah dimensi Array tanpa mengubah data:
-arr = np.arange(6)  # [0 1 2 3 4 5]
-reshaped_arr = arr.reshape(2, 3)  # Ubah ke bentuk 2x3
-print(reshaped_arr)
 
-#Gabungkan Array secara vertikal atau horizontal:
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-stacked = np.vstack((a, b))  # Penumpukan vertikal
-print(stacked)
-# Output:
-# [[1 2 3]
-#  [4 5 6]]
+RANDOM_SEED = 42
 
-concatenated = np.concatenate((a, b))  # Horizontal concatenation
-print(concatenated)  # Output: [1 2 3 4 5 6]
 
-#Hitung statistik deskriptif:
-arr = np.array([1, 2, 3, 4, 5])
+def show_array_creation(random_generator: np.random.Generator) -> None:
+	"""Tampilkan beberapa cara membuat array NumPy."""
+	print("=== Membuat array ===")
+	one_dimensional = np.array([1, 2, 3, 4])
+	two_dimensional = np.array([[1, 2], [3, 4]])
+	print("Array 1D:", one_dimensional)
+	print("Array 2D:\n", two_dimensional, sep="")
 
-median = np.median(arr)  # Median: 3
-mean = np.mean(arr)      # Rata-rata: 3.0
-std_dev = np.std(arr)    # Standar deviasi: ~1.414
-total = np.sum(arr)      # Jumlah: 15
+	random_array = random_generator.random((2, 3))
+	range_array = np.arange(0, 10, 2)
+	evenly_spaced_array = np.linspace(0, 1, 5)
+	print("\nArray acak 2x3:\n", random_array, sep="")
+	print("Rentang angka:", range_array)
+	print("Angka dengan jarak merata:", evenly_spaced_array)
 
-print(median, mean, std_dev, total)
 
-#Lakukan perkalian matriks (matrix multiplication):
-a = np.array([[1, 2], [3, 4]])
-b = np.array([[5, 6], [7, 8]])
+def show_array_operations() -> None:
+	"""Tampilkan operasi aritmetika elemen demi elemen."""
+	print("\n=== Operasi aritmetika ===")
+	first_array = np.array([1, 2, 3])
+	second_array = np.array([4, 5, 6])
+	print("Penjumlahan:", first_array + second_array)
+	print("Perkalian:", first_array * second_array)
+	print("Pengurangan:", first_array - second_array)
+	print("Pembagian:", first_array / second_array)
 
-result = np.dot(a, b)  # Perkalian matriks
-print(result)
-# Output:
-# [[19 22]
-#  [43 50]]
 
-#Hasilkan skor ujian acak:
-scores = np.random.rand(5, 3) * 100  # Skala ke 0-100
-print(scores)
-# Contoh Output:
-# [[23.4 56.7 89.1]
-#  [12.3 45.6 78.9]
-#  [34.5 67.8 90.1]
-#  [45.6 78.9 12.3]
-#  [56.7 89.1 23.4]]
+def show_indexing_and_reshaping() -> None:
+	"""Tampilkan pengaksesan elemen dan perubahan bentuk array."""
+	print("\n=== Indeks dan bentuk array ===")
+	values = np.array([10, 20, 30, 40, 50])
+	print("Elemen pertama:", values[0])
+	print("Irisan indeks 1 sampai 3:", values[1:4])
+	print("Elemen terakhir:", values[-1])
 
-#Hitung median untuk setiap subjek:
-subject_medians = np.median(scores, axis=0)
-print(subject_medians)
-# Contoh Output: [Median for each subject]
-#Perkalian Matriks Transformasi:
-#Kalikan matriks transformasi:
-transformation1 = np.array([[1, 0], [0, -1]])
-transformation2 = np.array([[0, -1], [1, 0]])
-result = np.dot(transformation1, transformation2)
-print(result)
-# Output:
-# [[ 0 -1]
-#  [-1  0]]
+	reshaped_values = np.arange(6).reshape(2, 3)
+	print("Array 2x3:\n", reshaped_values, sep="")
+
+
+def show_combining_and_statistics() -> None:
+	"""Tampilkan penggabungan array dan statistik deskriptif."""
+	print("\n=== Penggabungan dan statistik ===")
+	first_array = np.array([1, 2, 3])
+	second_array = np.array([4, 5, 6])
+	vertical_stack = np.vstack((first_array, second_array))
+	combined_array = np.concatenate((first_array, second_array))
+	print("Gabungan vertikal:\n", vertical_stack, sep="")
+	print("Gabungan horizontal:", combined_array)
+
+	values = np.array([1, 2, 3, 4, 5])
+	print("Median:", np.median(values))
+	print("Rata-rata:", np.mean(values))
+	print("Simpangan baku:", np.std(values))
+	print("Jumlah:", np.sum(values))
+
+
+def show_matrix_operations(random_generator: np.random.Generator) -> None:
+	"""Tampilkan perkalian matriks dan contoh data nilai ujian."""
+	print("\n=== Operasi matriks ===")
+	first_matrix = np.array([[1, 2], [3, 4]])
+	second_matrix = np.array([[5, 6], [7, 8]])
+	print("Hasil perkalian matriks:\n", np.matmul(first_matrix, second_matrix), sep="")
+
+	transformation_matrix = np.array([[1, 0], [0, -1]])
+	rotation_matrix = np.array([[0, -1], [1, 0]])
+	print(
+		"\nHasil perkalian matriks transformasi:\n",
+		np.matmul(transformation_matrix, rotation_matrix),
+		sep="",
+	)
+
+	scores = random_generator.uniform(0, 100, size=(5, 3))
+	subject_medians = np.median(scores, axis=0)
+	print("\nNilai untuk 5 siswa dan 3 mata pelajaran:\n", scores, sep="")
+	print("Median setiap mata pelajaran:", subject_medians)
+
+
+def main() -> None:
+	"""Jalankan seluruh contoh NumPy secara berurutan."""
+	random_generator = np.random.default_rng(RANDOM_SEED)
+	show_array_creation(random_generator)
+	show_array_operations()
+	show_indexing_and_reshaping()
+	show_combining_and_statistics()
+	show_matrix_operations(random_generator)
+
+
+if __name__ == "__main__":
+	main()

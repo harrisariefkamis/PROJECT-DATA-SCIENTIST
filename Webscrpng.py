@@ -1,69 +1,51 @@
-#install pandas
-#install bs4
-#install beatifulsoup
-#install selenium
+"""Ambil judul berita dari halaman utama Kompas.com."""
+
+# Instal dependensi dari terminal: python -m pip install pandas requests beautifulsoup4
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-# URL yang ingin di-scrape
-url = 'https://www.kompas.com/'
 
-# Mengirim permintaan GET ke URL
-response = requests.get(url)
-
-# Memeriksa apakah permintaan berhasil
-if response.status_code == 200:
-  # Membuat objek BeautifulSoup dari konten HTML
-  soup = BeautifulSoup(response.content, 'html.parser')
-
-  # Mencari semua berita utama (misalnya, dengan tag h3 most title)
-  berita_utama = soup.find_all('h3', class_='most__title')
-
-  # Menyimpan judul berita ke dalam list
-  judul_berita = []
-  for berita in berita_utama:
-    judul_berita.append(berita.text.strip())
-
-  # Membuat DataFrame pandas dari list judul berita
-  df_berita = pd.DataFrame({'Judul Berita': judul_berita})
+URL = "https://www.kompas.com/"
+HEADLINE_SELECTOR = "h3.most__title"
+REQUEST_TIMEOUT_SECONDS = 15
+REQUEST_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; LearningScraper/1.0)"
+}
 
 
-  # Menampilkan DataFrame
-  print(df_berita)
+def scrape_headline_titles(url: str) -> list[str]:
+    """Ambil judul berita utama dari URL yang diberikan."""
+    response = requests.get(
+        url,
+        headers=REQUEST_HEADERS,
+        timeout=REQUEST_TIMEOUT_SECONDS,
+    )
+    response.raise_for_status()
 
-else:
-  print(f'Gagal mengakses URL. Kode status: {response.status_code}')
-
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
-
-# URL yang ingin di-scrape
-url = 'https://www.kompas.com/'
-
-# Mengirim permintaan GET ke URL
-response = requests.get(url)
-
-# Memeriksa apakah permintaan berhasil
-if response.status_code == 200:
-  # Membuat objek BeautifulSoup dari konten HTML
-  soup = BeautifulSoup(response.content, 'html.parser')
-
-  # Mencari semua berita utama (misalnya, dengan tag h3 most title)
-  berita_utama = soup.find_all('h3', class_='most__title')
-
-  # Menyimpan judul berita ke dalam list
-  judul_berita = []
-  for berita in berita_utama:
-    judul_berita.append(berita.text.strip())
-
-  # Membuat DataFrame pandas dari list judul berita
-  df_berita = pd.DataFrame({'Judul Berita': judul_berita})
+    soup = BeautifulSoup(response.text, "html.parser")
+    return [
+        headline.get_text(" ", strip=True)
+        for headline in soup.select(HEADLINE_SELECTOR)
+        if headline.get_text(" ", strip=True)
+    ]
 
 
-  # Menampilkan DataFrame
-  print(df_berita)
+def main() -> None:
+    """Jalankan scraper dan tampilkan hasilnya sebagai tabel."""
+    try:
+        titles = scrape_headline_titles(URL)
+    except requests.RequestException as error:
+        print(f"Gagal mengambil data dari {URL}: {error}")
+        return
 
-else:
-  print(f'Gagal mengakses URL. Kode status: {response.status_code}')
+    if not titles:
+        print("Tidak ada judul berita yang ditemukan.")
+        return
+
+    headlines = pd.DataFrame({"Judul Berita": titles})
+    print(headlines.to_string(index=False))
+
+
+if __name__ == "__main__":
+    main()
